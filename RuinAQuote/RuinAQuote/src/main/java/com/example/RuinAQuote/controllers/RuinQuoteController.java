@@ -49,7 +49,8 @@ public class RuinQuoteController {
     @RequestMapping(path="/nonsense/back", method=RequestMethod.PUT)
     public Quote addNonsenseBack(@RequestBody Quote quote){
         Fact nonsense = factService.getFact();
-        String newQuote = quote.getQuoteText() + " " + quote.getQuoteText();
+        String newQuote = quote.getQuoteText() + " " + nonsense.getText();
+        quote.setQuoteText(newQuote);
         return quote;
     }
 

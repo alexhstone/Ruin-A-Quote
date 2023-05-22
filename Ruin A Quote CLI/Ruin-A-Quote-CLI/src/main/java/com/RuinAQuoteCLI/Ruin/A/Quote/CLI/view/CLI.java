@@ -1,20 +1,14 @@
-package com.example.RuinAQuote.view;
+package com.RuinAQuoteCLI.Ruin.A.Quote.CLI.view;
 
-import com.example.RuinAQuote.controllers.RuinQuoteController;
-import com.example.RuinAQuote.model.Quote;
-import com.example.RuinAQuote.model.StoredQuote;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.RuinAQuoteCLI.Ruin.A.Quote.CLI.model.Quote;
+import com.RuinAQuoteCLI.Ruin.A.Quote.CLI.services.RuinQuoteService;
 
 import java.util.List;
 import java.util.Scanner;
 
-
 public class CLI {
-
-
-    private RuinQuoteController ruinQuoteController = new RuinQuoteController();
-    private Scanner scanner = new Scanner(System.in);
+    private final RuinQuoteService ruinQuoteService = new RuinQuoteService();
+    private final Scanner scanner = new Scanner(System.in);
 
 
     public void run(){
@@ -26,7 +20,7 @@ public class CLI {
         while(true){
             if (original == null){
                 System.out.println("Here's a quote to get you started!");
-                original = ruinQuoteController.getNewQuote();
+                original = ruinQuoteService.getNewQuote();
             }
             System.out.println("Original Quote:");
             System.out.println(original);
@@ -37,8 +31,8 @@ public class CLI {
             displayMenu();
             int userInput = promptForInt();
             if (userInput == 1){
-               original = ruinQuoteController.getNewQuote();
-               mod = null;
+                original = ruinQuoteService.getNewQuote();
+                mod = null;
             }
             if (userInput == 2){
                 //if user hasn't done any mods yet, we set it to a clone of the original quote
@@ -114,15 +108,15 @@ public class CLI {
         while(true){
             int userInput = promptForInt();
             if (userInput == 1){
-                mod = ruinQuoteController.addNonsenseFront(quote);
+                mod = ruinQuoteService.addNonsenseFront(quote);
                 return mod;
             }
             if (userInput == 2){
-                mod = ruinQuoteController.addNonsenseBack(quote);
+                mod = ruinQuoteService.addNonsenseBack(quote);
                 return mod;
             }
             if (userInput == 3){
-                mod = ruinQuoteController.addNonsenseSmart(quote);
+                mod = ruinQuoteService.addNonsenseSmart(quote);
                 return mod;
             }
         }
@@ -160,7 +154,7 @@ public class CLI {
     private Quote jeffMyQuote(Quote quote){
         System.out.println("How Jeff'd do you want your quote? (enter a number)");
         int jeffCount = promptForInt();
-        return ruinQuoteController.jeffMyQuote(quote, jeffCount);
+        return ruinQuoteService.jeffMyQuote(quote, jeffCount);
     }
 
     private Quote jeffMyAuthor(Quote quote) {
@@ -171,11 +165,11 @@ public class CLI {
             int userChoice = promptForInt();
 
             if (userChoice == 1) {
-                quote = ruinQuoteController.jeffMyAuthorFirstName(quote);
+                quote = ruinQuoteService.jeffMyAuthorFirstName(quote);
                 return quote;
             }
             if (userChoice == 2) {
-                quote = ruinQuoteController.jeffMyAuthorFullName(quote);
+                quote = ruinQuoteService.jeffMyAuthorFull(quote);
                 return quote;
             }
 
@@ -184,23 +178,10 @@ public class CLI {
 
     private Quote handleScrambleIt(Quote quote){
         System.out.println("Scramble It\u2122 is powered by ChatGPT");
-        return ruinQuoteController.scramble(quote);
+        return ruinQuoteService.scramble(quote);
     }
 
-    private void displayQuotes(List<StoredQuote> quotes){
-        System.out.println("-----------------------------------------");
-        System.out.println("            Saved quotes                 ");
-        System.out.println("-----------------------------------------");
-        if (quotes.size() < 1){
-            System.out.println("No quotes to show :(");
-            System.out.println("Try saving one!");
-        }
-        for (StoredQuote quote : quotes){
-            System.out.println(quote.toString());
-            System.out.println();
-        }
-        System.out.println("-----------------------------------------");
-    }
+
 
 
 
@@ -220,3 +201,4 @@ public class CLI {
     }
 
 }
+

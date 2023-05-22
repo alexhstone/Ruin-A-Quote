@@ -16,8 +16,6 @@ public class QuoteService {
 
     public Quote getQuote(){
 
-
-
         try {
             return restTemplate.getForObject(API_BASE_URL, Quote.class);
         } catch (Exception e){
